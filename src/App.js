@@ -3,7 +3,7 @@ import * as Tone from 'tone';
 import { useEffect } from 'react';
 
 function App() {
-  let synth;
+  const synth = new Tone.PolySynth(Tone.Synth).toDestination();
   let keyMapping = {
     'a': 'C4',
     'w': 'C#4',
@@ -16,7 +16,6 @@ function App() {
     'k': 'C5'
   }
   useEffect(() => {
-    synth = new Tone.PolySynth(Tone.Synth).toDestination();
     window.addEventListener('keypress', e => {
       if(keyMapping[e.key]) {
         playNote(keyMapping[e.key]);
