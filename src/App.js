@@ -1,65 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
 import * as Tone from 'tone';
 import { useEffect } from 'react';
 
 function App() {
   let synth;
-  let now;
+  let keyMapping = {
+    'a': 'C4',
+    'w': 'C#4',
+    's': 'D4',
+    'd': 'E4',
+    'f': 'F4',
+    'g': 'G4',
+    'h': 'A4',
+    'j': 'B4',
+    'k': 'C5'
+  }
   useEffect(() => {
     synth = new Tone.PolySynth(Tone.Synth).toDestination();
     window.addEventListener('keypress', e => {
-      if(e.key === 'a'){
-        playNote('C');
-      }
-      if(e.key === 's'){
-        playNote('D');
-      }
-      if(e.key === 'd'){
-        playNote('E');
-      }
-      if(e.key === 'f'){
-        playNote('F');
-      }
-      if(e.key === 'g'){
-        playNote('G');
-      }
-      if(e.key === 'h'){
-        playNote('A');
-      }
-      if(e.key === 'j'){
-        playNote('B');
-      }
-      if(e.key === 'k'){
-        playNote('Cmin');
+      if(keyMapping[e.key]) {
+        playNote(keyMapping[e.key]);
       }
     });
-
   }, [])
 
   function playNote(note) {
-    let tone = note;
-    let pitch = 4;
-    if (note.includes('min')) {
-      tone = note.replace('min', '');
-      pitch = 5;
-    }
-    synth.triggerAttackRelease(`${tone}${pitch}`, "8n");
+    synth.triggerAttackRelease(`${note}`, "5n");
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        <div className='keyboard'>
-          <button id='button' onClick={() => playNote('C')}>C</button>
-          <button id='button' onClick={() => playNote('D')}>D</button>
-          <button id='button' onClick={() => playNote('E')}>E</button>
-          <button id='button' onClick={() => playNote('F')}>F</button>
-          <button id='button' onClick={() => playNote('G')}>G</button>
-          <button id='button' onClick={() => playNote('A')}>A</button>
-          <button id='button' onClick={() => playNote('B')}>B</button>
-          <button id='button' onClick={() => playNote('Cmin')}>Ċ</button>
-        </div>
+        <ul className='keyboard'>
+          <li className='white' onClick={() => playNote('C4')}>C</li>
+          <li className='black' onClick={() => playNote('C#4')}>C#</li>
+          <li className='white' style={{margin: '0 0 0 -1em'}} onClick={() => playNote('D4')}>D</li>
+          <li className='black' onClick={() => playNote('D#4')}>D#</li>
+          <li className='white' style={{margin: '0 0 0 -1em'}} onClick={() => playNote('E4')}>E</li>
+          <li className='white' onClick={() => playNote('F4')}>F</li>
+          <li className='black' onClick={() => playNote('F#4')}>F#</li>
+          <li className='white' style={{margin: '0 0 0 -1em'}} onClick={() => playNote('G4')}>G</li>
+          <li className='black' onClick={() => playNote('G#4')}>G#</li>
+          <li className='white' style={{margin: '0 0 0 -1em'}} onClick={() => playNote('A4')}>A</li>
+          <li className='black' onClick={() => playNote('A#4')}>A#</li>
+          <li className='white' style={{margin: '0 0 0 -1em'}} onClick={() => playNote('B4')}>B</li>
+          <li className='white' onClick={() => playNote('C5')}>Ċ</li>
+        </ul>
       </header>
     </div>
   );
